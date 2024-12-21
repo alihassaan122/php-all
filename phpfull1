@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<h1>Input your data</h1>
+<form action="" method="post">
+<label for="name">Name:</label>
+<input type="text" name="name"><br><br>
+<label for="email">Email:</label>
+<input type="email" name="email"><br><br>
+<button type="submit" name="submit">Submit</button>
+</form>
+
+<h1>update your data</h1>
+<form action=""method="post">
+<label for="old_email">old email:</label>
+<input type="email" name="old_email"><br><br>
+<label for="New_name">New name:</label>
+<input type="text" name="New_name"><br><br>
+<button type="update" name="update">update</button>
+</form>
+<br>
+
+<h1>Delete your data</h1>
+<form action=""method="post">
+<label for="delete_email">email to delete:</label>
+<input type="email" name="delete_email"><br><br>
+<button type="submit" name="delete">Delete</button>
+</form>
+
+<h1>Search your data</h1>
+<form action=""method="post">
+<label for="Search_email">email to Search:</label>
+<input type="Search_email" name="Search_email"><br><br>
+<button type="submit" name="Search">Search</button>
+</form>
+
+<?php
+//connection
+$conn=mysqli_connect("localhost", "root", "", "myuser");
+if($conn){
+echo "you are connected <br>"; 
+}
+// creating table
+// $table_sql="CREATE TABLE myuser(
+//     id int AUTO_INCREMENT PRIMARY KEY,
+//     NAME VARCHAR(18),
+//     EMAIL VARCHAR(20)
+//     )";
+// $conn->query($table_sql);
+
+if(isset($_POST['submit'])){
+    //form data
+    $name=$_POST["name"];
+    $email=$_POST["email"];
+$insert_sql="INSERT INTO myuser (NAME, EMAIL) VALUES ('$name', '$email')";
+$conn->query($insert_sql);
+echo "this data is submitted <br>";
+}
+//update
+if(isset($_POST['update'])){
+    //form data$old-emaikl$_POST["old email"];
+    $email=$_POST["old_email"];
+    $email=$_POST["New_name"];
+    $conn->query($table_sql);
+    $UPDATE_sql="UPDATE myuser SET NAME='$new_name' where email='$old_email'";
+    $conn->query($INSERT_SQL);
+    echo "this data is update <br>";
+}
+if(isset($_POST['delete'])){
+    //form data$old-emaikl$_POST["old email"];
+    $delete_email=$_POST["delete_email"];
+    $delete_sql="DELETE FROM myuser WHERE EMAIL='$delete_email'";
+    $conn->query ($delete_sql);
+    echo "this data is delete <br>";
+    }
+//search
+if(isset($_POST['search'])){
+    //form data
+    $Search_email=$_POST["search_email"];  
+    $Search_sql="SELECT * FROM myuser WHERE EMAIL ='$Search_email'";
+
+    $result=$conn->query($Search_sql);
+    if($result->num_rows>0){
+     while($row=$result->fatch_assoc()){
+        echo "<h1>this your Result</h2>";
+        echo "NAME=".$row['NAME']."EMAIL=".$row ['EMAIL'];
+     } 
+}
+else {
+    echo"your email is not valid";
+}
+
+    }
+$conn->close();
+
+?>
+</body>
+</html>
